@@ -36,8 +36,22 @@ class Api extends CI_Controller {
                 'last_name_error' => form_error('last_name')
             );
         }
-        
+
         echo json_encode($array, true);
+    }
+
+    function fetch_single(){
+        if($this->input->post('id')){
+            $data = $this->api_model->fetch_single_user($this->input->post('id'));
+
+            foreach($data as $row)
+            {
+                $output['first_name'] = $row["first_name"];
+                $output['last_name'] = $row["last_name"];
+            }
+            
+            echo json_encode($output);
+        }
     }
 	
 }
