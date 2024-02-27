@@ -77,8 +77,26 @@ class Api extends CI_Controller {
                 'last_name_error' => form_error('last_name')
             );
         }
-        
+
         echo json_encode($array, true);
+    }
+
+    function delete(){
+        if($this->input->post('id')){
+
+            if($this->api_model->delete_single_user($this->input->post('id')))
+            {
+                $array = array(
+                'success' => true
+                );
+            }else{
+                $array = array(
+                'error' => true
+                );
+            }
+
+            echo json_encode($array);
+        }
     }
 	
 }
