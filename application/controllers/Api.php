@@ -49,9 +49,36 @@ class Api extends CI_Controller {
                 $output['first_name'] = $row["first_name"];
                 $output['last_name'] = $row["last_name"];
             }
-            
+
             echo json_encode($output);
         }
+    }
+
+    function update(){
+        $this->form_validation->set_rules("first_name", "First Name", "required");
+        $this->form_validation->set_rules("last_name", "Last Name", "required");
+        $array = array();
+
+        if($this->form_validation->run()){
+            $data = array(
+                'first_name' => trim($this->input->post('first_name')),
+                'last_name'  => trim($this->input->post('last_name'))
+            );
+
+            $this->api_model->update_api($this->input->post('id'), $data);
+            
+            $array = array(
+                'success'  => true
+            );
+        }else{
+            $array = array(
+                'error'    => true,
+                'first_name_error' => form_error('first_name'),
+                'last_name_error' => form_error('last_name')
+            );
+        }
+        
+        echo json_encode($array, true);
     }
 	
 }
