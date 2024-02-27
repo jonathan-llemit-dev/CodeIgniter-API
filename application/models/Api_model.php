@@ -21,5 +21,10 @@ class Api_model extends CI_Model {
         $query = $this->db->get('tbl_sample');
         return $query->result_array();
     }
+
+    function update_api($user_id, $data){
+        $this->db->where("id", $user_id);
+        $this->db->update("tbl_sample", $data);
+    }
 	
 }
