@@ -3,9 +3,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Test_api extends CI_Controller {
 
-    function index(){
-        $this->load->view('api_view');
+    // function index(){
+    //     $this->load->view('api_view');
+    // }
+
+    public function __construct() {
+        parent::__construct();
+
+        $this->load->model('Api_model');
+        $this->load->library('session','form_validation'); 
+        
     }
+
+    public function index()
+	{
+
+        $Api_model = new Api_model;
+        $data['users'] = $Api_model->get_data();
+
+		$this->load->view('api_view', $data);
+
+	}
 
     function action(){
     

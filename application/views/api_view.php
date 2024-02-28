@@ -1,173 +1,81 @@
-<html>
-<head>
-    <title>CURD REST API in Codeigniter</title>
-    
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    
-</head>
-<body>
+<?php
+    defined('BASEPATH') OR exit('No direct script access allowed');
+?>
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+
+    <title>Users Table</title>
+  </head>
+  <body>
+
     <div class="container">
-        <br />
-        <h3 align="center">Create CRUD REST API in Codeigniter - 4</h3>
-        <br />
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col-md-6">
-                        <h3 class="panel-title">CRUD REST API in Codeigniter</h3>
+        <div class="row">
+            <div class="col-md-12 mt-4">
+                <div class="card">
+                    <div class="card-header">
+                        <?php if($this->session->flashdata('created')) : ?>
+                            <div class="alert alert-success">
+                                <?= $this->session->flashdata('created'); ?>
+                            </div>
+                        <?php endif ?>
+                        <?php if($this->session->flashdata('updated')) : ?>
+                            <div class="alert alert-primary">
+                                <?= $this->session->flashdata('updated'); ?>
+                            </div>
+                        <?php endif ?>
+                        <?php if($this->session->flashdata('deleted')) : ?>
+                            <div class="alert alert-danger">
+                                <?= $this->session->flashdata('deleted'); ?>
+                            </div>
+                        <?php endif ?>
+                        <h3>
+                            Users Table
+                            <a href="<?= base_url('student/add'); ?>" class="btn btn-primary float-right">Add User</a>
+                        </h3>
                     </div>
-                    <div class="col-md-6" align="right">
-                        <button type="button" id="add_button" class="btn btn-info btn-xs">Add</button>
+                    <div class="card-body">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($users as $user): ?>
+                                    <tr>
+                                        <td><?= $user->id; ?></td>
+                                        <td><?= $user->first_name; ?></td>
+                                        <td><?= $user->last_name; ?></td>
+                                        <td>
+                                            <a href="<?= base_url('student/edit/' . $student->id); ?>" class="btn btn-info btn-sm">Edit</a>
+                                        </td>
+                                        <td>
+                                            <a href="<?= base_url('student/delete/' . $student->id); ?>" class="btn btn-danger btn-sm">Delete</a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-            </div>
-            <div class="panel-body">
-                <span id="success_message"></span>
-                <table class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
+
 </body>
 </html>
-
-<div id="userModal" class="modal fade">
-    <div class="modal-dialog">
-        <form method="post" id="user_form">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Add User</h4>
-                </div>
-                <div class="modal-body">
-                    <label>Enter First Name</label>
-                    <input type="text" name="first_name" id="first_name" class="form-control" />
-                    <span id="first_name_error" class="text-danger"></span>
-                    <br />
-                    <label>Enter Last Name</label>
-                    <input type="text" name="last_name" id="last_name" class="form-control" />
-                    <span id="last_name_error" class="text-danger"></span>
-                    <br />
-                </div>
-                <div class="modal-footer">
-                    <input type="hidden" name="user_id" id="user_id" />
-                    <input type="hidden" name="data_action" id="data_action" value="Insert" />
-                    <input type="submit" name="action" id="action" class="btn btn-success" value="Add" />
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
-
-<script type="text/javascript" language="javascript" >
-$(document).ready(function(){
-    
-    function fetch_data()
-    {
-        $.ajax({
-            url:"<?php echo base_url(); ?>Test_api/action",
-            method:"POST",
-            data:{data_action:'fetch_all'},
-            success:function(data)
-            {
-                $('tbody').html(data);
-            }
-        });
-    }
-
-    fetch_data();
-
-    $('#add_button').click(function(){
-        $('#user_form')[0].reset();
-        $('.modal-title').text("Add User");
-        $('#action').val('Add');
-        $('#data_action').val("Insert");
-        $('#userModal').modal('show');
-    });
-
-    $(document).on('submit', '#user_form', function(event){
-        event.preventDefault();
-        $.ajax({
-            url:"<?php echo base_url() . 'Test_api/action' ?>",
-            method:"POST",
-            data:$(this).serialize(),
-            dataType:"json",
-            success:function(data)
-            {
-                if(data.success)
-                {
-                    $('#user_form')[0].reset();
-                    $('#userModal').modal('hide');
-                    fetch_data();
-                    if($('#data_action').val() == "Insert")
-                    {
-                        $('#success_message').html('<div class="alert alert-success">Data Inserted</div>');
-                    }
-                }
-
-                if(data.error)
-                {
-                    $('#first_name_error').html(data.first_name_error);
-                    $('#last_name_error').html(data.last_name_error);
-                }
-            }
-        })
-    });
-
-    $(document).on('click', '.edit', function(){
-        var user_id = $(this).attr('id');
-        $.ajax({
-            url:"<?php echo base_url(); ?>Test_api/action",
-            method:"POST",
-            data:{user_id:user_id, data_action:'fetch_single'},
-            dataType:"json",
-            success:function(data)
-            {
-                $('#userModal').modal('show');
-                $('#first_name').val(data.first_name);
-                $('#last_name').val(data.last_name);
-                $('.modal-title').text('Edit User');
-                $('#user_id').val(user_id);
-                $('#action').val('Edit');
-                $('#data_action').val('Edit');
-            }
-        })
-    });
-
-    $(document).on('click', '.delete', function(){
-        var user_id = $(this).attr('id');
-        if(confirm("Are you sure you want to delete this?"))
-        {
-            $.ajax({
-                url:"<?php echo base_url(); ?>Test_api/action",
-                method:"POST",
-                data:{user_id:user_id, data_action:'Delete'},
-                dataType:"JSON",
-                success:function(data)
-                {
-                    if(data.success)
-                    {
-                        $('#success_message').html('<div class="alert alert-success">Data Deleted</div>');
-                        fetch_data();
-                    }
-                }
-            })
-        }
-    });
-    
-});
-</script>
