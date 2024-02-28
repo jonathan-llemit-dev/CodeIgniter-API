@@ -79,7 +79,7 @@ $(document).ready(function(){
     function fetch_data()
     {
         $.ajax({
-            url:"<?php echo base_url(); ?>test_api/action",
+            url:"<?php echo base_url(); ?>Test_api/action",
             method:"POST",
             data:{data_action:'fetch_all'},
             success:function(data)
@@ -102,7 +102,7 @@ $(document).ready(function(){
     $(document).on('submit', '#user_form', function(event){
         event.preventDefault();
         $.ajax({
-            url:"<?php echo base_url() . 'test_api/action' ?>",
+            url:"<?php echo base_url() . 'Test_api/action' ?>",
             method:"POST",
             data:$(this).serialize(),
             dataType:"json",
@@ -131,7 +131,7 @@ $(document).ready(function(){
     $(document).on('click', '.edit', function(){
         var user_id = $(this).attr('id');
         $.ajax({
-            url:"<?php echo base_url(); ?>test_api/action",
+            url:"<?php echo base_url(); ?>Test_api/action",
             method:"POST",
             data:{user_id:user_id, data_action:'fetch_single'},
             dataType:"json",
@@ -153,7 +153,7 @@ $(document).ready(function(){
         if(confirm("Are you sure you want to delete this?"))
         {
             $.ajax({
-                url:"<?php echo base_url(); ?>test_api/action",
+                url:"<?php echo base_url(); ?>Test_api/action",
                 method:"POST",
                 data:{user_id:user_id, data_action:'Delete'},
                 dataType:"JSON",
