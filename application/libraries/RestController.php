@@ -2,6 +2,8 @@
 
 namespace chriskacerguis\RestServer;
 
+// require APPPATH . 'libraries/Format.php';
+
 use Exception;
 use stdClass;
 
@@ -832,7 +834,7 @@ class RestController extends \CI_Controller
                 $method = $this->input->server('HTTP_X_HTTP_METHOD_OVERRIDE');
             }
 
-            $method = strtolower($method);
+            $method = $method;
         }
 
         if (empty($method)) {
