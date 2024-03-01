@@ -55,4 +55,4 @@ $route['translate_uri_dashes'] = FALSE;
 
 $route['api/demo'] = 'ApiDemoController/index';
 
-$route['test'] = 'Test_api/index';
+$route['test'] = 'Test_api/index_get';
