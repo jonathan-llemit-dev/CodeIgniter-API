@@ -12,4 +12,8 @@ class Api_model extends CI_Model {
         return $query->result();
     }
 
+    public function insert_data($data) {
+        return $this->db->insert('tbl_sample', $data);
+    }
+
 }
