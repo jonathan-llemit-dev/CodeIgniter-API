@@ -72,12 +72,20 @@ class Api extends CI_Controller {
         }
     }
 
-    public function update($id){
+    public function update($id = null){
         if ($_SERVER['REQUEST_METHOD'] !== 'PUT') {
             $this->output
                 ->set_content_type('application/json')
                 ->set_status_header(405)
                 ->set_output(json_encode(array('message' => 'Method Not Allowed')));
+            return;
+        }
+
+        if(!$id){
+            $this->output
+                ->set_content_type('application/json')
+                ->set_status_header(400)
+                ->set_output(json_encode(array('message' => 'ID parameter required.')));
             return;
         }
 
