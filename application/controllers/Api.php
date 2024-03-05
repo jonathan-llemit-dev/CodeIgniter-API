@@ -126,6 +126,38 @@ class Api extends CI_Controller {
         }
     }
 
+    public function delete($id = null){
+        if ($_SERVER['REQUEST_METHOD'] !== 'DELETE') {
+            $this->output
+                ->set_content_type('application/json')
+                ->set_status_header(405)
+                ->set_output(json_encode(array('message' => 'Method Not Allowed')));
+            return;
+        }
+    
+        // Check if the id parameter is present
+        if (!$id) {
+            $this->output
+                ->set_content_type('application/json')
+                ->set_status_header(400)
+                ->set_output(json_encode(array('message' => 'ID parameter is required.')));
+            return;
+        }
+    
+        // Perform the delete operation
+        if ($this->Api_model->delete_data($id)) {
+            $this->output
+                ->set_content_type('application/json')
+                ->set_status_header(200) // 200 OK
+                ->set_output(json_encode(array('message' => 'Data deleted successfully')));
+        } else {
+            $this->output
+                ->set_content_type('application/json')
+                ->set_status_header(500) // 500 Internal Server Error
+                ->set_output(json_encode(array('message' => 'Failed to delete data')));
+        }
+    }
+
 }
 
  
