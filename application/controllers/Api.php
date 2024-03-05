@@ -6,6 +6,9 @@ class Api extends CI_Controller {
     public function __construct(){
         parent::__construct();
         $this->load->model('Api_model');
+
+        $this->load->library('form_validation');
+        $this->form_validation->set_error_delimiters('', '');
     }
 
     public function index(){
@@ -32,11 +35,16 @@ class Api extends CI_Controller {
             return;
         }
 
-        // Example of input validation
+        // Set validation rules
         $this->form_validation->set_rules('first_name', 'First Name', 'required');
         $this->form_validation->set_rules('last_name', 'Last Name', 'required');
 
-        if ($this->form_validation->run() == FALSE) {
+        // Get JSON data from the request body
+        $json = file_get_contents('php://input');
+        $data = json_decode($json, true);
+
+        // Validate the JSON data
+        if (!$this->form_validation->run($data)) {
             $this->output
                 ->set_content_type('application/json')
                 ->set_status_header(400)
@@ -45,12 +53,12 @@ class Api extends CI_Controller {
         }
 
         // Insert data into the database
-        $data = array(
-            'first_name' => $this->input->post('first_name'),
-            'last_name' => $this->input->post('last_name')
+        $insert_data = array(
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name']
         );
 
-        if ($this->Api_model->insert_data($data)) {
+        if ($this->Api_model->insert_data($insert_data)) {
             $this->output
                 ->set_content_type('application/json')
                 ->set_status_header(201) // 201 Created
