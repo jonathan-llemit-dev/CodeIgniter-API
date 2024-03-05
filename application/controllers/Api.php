@@ -35,27 +35,28 @@ class Api extends CI_Controller {
             return;
         }
 
+        // Decode JSON data from the request body
+        $input_data = json_decode(trim(file_get_contents('php://input')), true);
+
         // Set validation rules
-        $this->form_validation->set_rules('first_name', 'First Name', 'required');
-        $this->form_validation->set_rules('last_name', 'Last Name', 'required');
+        $this->form_validation->set_data($input_data);
+        $this->form_validation->set_rules('first_name', 'First Name', 'required', array('required' => 'The %s field is required. '));
+        $this->form_validation->set_rules('last_name', 'Last Name', 'required', array('required' => 'The %s field is required. '));
 
-        // Get JSON data from the request body
-        $json = file_get_contents('php://input');
-        $data = json_decode($json, true);
 
-        // Validate the JSON data
-        if (!$this->form_validation->run($data)) {
+        // Validate the input data
+        if ($this->form_validation->run() == false) {
             $this->output
                 ->set_content_type('application/json')
                 ->set_status_header(400)
-                ->set_output(json_encode(array('message' => validation_errors())));
+                ->set_output(json_encode(array('message' => str_replace("\n", "", validation_errors()))));
             return;
         }
 
         // Insert data into the database
         $insert_data = array(
-            'first_name' => $data['first_name'],
-            'last_name' => $data['last_name']
+            'first_name' => $input_data['first_name'],
+            'last_name' => $input_data['last_name']
         );
 
         if ($this->Api_model->insert_data($insert_data)) {
