@@ -21,4 +21,11 @@ class Api_model extends CI_Model {
         return $this->db->update('tbl_sample', $data);
     }
 
+    public function delete_data($id) {
+
+        $this->db->where('id', $id);
+        return $this->db->delete('tbl_sample');
+    
+    }
+
 }
