@@ -22,10 +22,9 @@ class Api_model extends CI_Model {
     }
 
     public function delete_data($id) {
-
         $this->db->where('id', $id);
-        return $this->db->delete('tbl_sample');
-    
+        $this->db->delete('tbl_sample');
+        return $this->db->affected_rows() > 0;
     }
 
 }

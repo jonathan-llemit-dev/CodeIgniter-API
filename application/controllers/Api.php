@@ -144,13 +144,20 @@ class Api extends CI_Controller {
             return;
         }
     
-        // Perform the delete operation
-        if ($this->Api_model->delete_data($id)) {
-            $this->output
-                ->set_content_type('application/json')
-                ->set_status_header(200) // 200 OK
-                ->set_output(json_encode(array('message' => 'Data deleted successfully')));
-        } else {
+        try {
+            // Perform the delete operation
+            if ($this->Api_model->delete_data($id)) {
+                $this->output
+                    ->set_content_type('application/json')
+                    ->set_status_header(200) // 200 OK
+                    ->set_output(json_encode(array('message' => 'Data deleted successfully')));
+            } else {
+                $this->output
+                    ->set_content_type('application/json')
+                    ->set_status_header(404) // 404 Not Found
+                    ->set_output(json_encode(array('message' => 'Data not found or already deleted')));
+            }
+        } catch (Exception $e) {
             $this->output
                 ->set_content_type('application/json')
                 ->set_status_header(500) // 500 Internal Server Error
