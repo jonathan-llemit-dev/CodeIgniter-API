@@ -64,6 +64,11 @@ class Api extends CI_Controller {
             return;
         }
 
+        // Check for authorization
+        if (!$this->authorize()) {
+            return;
+        }
+
         // Decode JSON data from the request body
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
 
