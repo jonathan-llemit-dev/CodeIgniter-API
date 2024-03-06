@@ -115,6 +115,11 @@ class Api extends CI_Controller {
             return;
         }
 
+        // Check for authorization
+        if (!$this->authorize()) {
+            return;
+        }
+
         if(!$id){
             $this->output
                 ->set_content_type('application/json')
