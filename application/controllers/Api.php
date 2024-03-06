@@ -20,6 +20,26 @@ class Api extends CI_Controller {
             return;
         }
 
+        // Check for basic authorization
+        if (!isset($_SERVER['PHP_AUTH_USER']) || !isset($_SERVER['PHP_AUTH_PW'])) {
+            $this->output
+                ->set_content_type('application/json')
+                ->set_status_header(401)
+                ->set_output(json_encode(array('message' => 'Authorization required')));
+            return;
+        }
+
+        // Verify basic authorization credentials
+        $username = $_SERVER['PHP_AUTH_USER'];
+        $password = $_SERVER['PHP_AUTH_PW'];
+        if ($username !== 'ussc' || $password !== 'qweqweQ1!') {
+            $this->output
+                ->set_content_type('application/json')
+                ->set_status_header(401)
+                ->set_output(json_encode(array('message' => 'Unauthorized')));
+            return;
+        }
+
         $data = $this->Api_model->get_data();
         $this->output
             ->set_content_type('application/json')
