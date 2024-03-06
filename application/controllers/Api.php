@@ -11,22 +11,14 @@ class Api extends CI_Controller {
         $this->form_validation->set_error_delimiters('', '');
     }
 
-    public function index(){
-        if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
-            $this->output
-                ->set_content_type('application/json')
-                ->set_status_header(405)
-                ->set_output(json_encode(array('message' => 'Method Not Allowed')));
-            return;
-        }
-
+    private function authorize() {
         // Check for basic authorization
         if (!isset($_SERVER['PHP_AUTH_USER']) || !isset($_SERVER['PHP_AUTH_PW'])) {
             $this->output
                 ->set_content_type('application/json')
                 ->set_status_header(401)
                 ->set_output(json_encode(array('message' => 'Authorization required')));
-            return;
+            return false;
         }
 
         // Verify basic authorization credentials
@@ -37,6 +29,18 @@ class Api extends CI_Controller {
                 ->set_content_type('application/json')
                 ->set_status_header(401)
                 ->set_output(json_encode(array('message' => 'Unauthorized')));
+            return false;
+        }
+
+        return true;
+    }
+
+    public function index(){
+        if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
+            $this->output
+                ->set_content_type('application/json')
+                ->set_status_header(405)
+                ->set_output(json_encode(array('message' => 'Method Not Allowed')));
             return;
         }
 
