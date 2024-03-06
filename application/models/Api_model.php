@@ -18,7 +18,8 @@ class Api_model extends CI_Model {
 
     public function update_data($id, $data) {
         $this->db->where('id', $id);
-        return $this->db->update('tbl_sample', $data);
+        $this->db->update('tbl_sample', $data);
+        return $this->db->affected_rows() > 0;
     }
 
     public function delete_data($id) {

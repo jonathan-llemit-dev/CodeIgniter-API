@@ -147,17 +147,26 @@ class Api extends CI_Controller {
             'last_name' => $input_data['last_name']
         );
 
-        if ($this->Api_model->update_data($id, $update_data)) {
-            $this->output
-                ->set_content_type('application/json')
-                ->set_status_header(200) // 200 OK
-                ->set_output(json_encode(array('message' => 'Data updated successfully')));
-        } else {
+        try {
+            // Perform the update operation
+            if ($this->Api_model->update_data($id, $update_data)) {
+                $this->output
+                    ->set_content_type('application/json')
+                    ->set_status_header(200) // 200 OK
+                    ->set_output(json_encode(array('message' => 'Data updated successfully')));
+            } else {
+                $this->output
+                    ->set_content_type('application/json')
+                    ->set_status_header(404) // 404 Not Found
+                    ->set_output(json_encode(array('message' => 'Data not found')));
+            }
+        } catch (Exception $e) {
             $this->output
                 ->set_content_type('application/json')
                 ->set_status_header(500) // 500 Internal Server Error
                 ->set_output(json_encode(array('message' => 'Failed to update data')));
         }
+
     }
 
     public function delete($id = null){
