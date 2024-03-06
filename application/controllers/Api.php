@@ -182,6 +182,11 @@ class Api extends CI_Controller {
                 ->set_output(json_encode(array('message' => 'Method Not Allowed')));
             return;
         }
+
+        // Check for authorization
+        if (!$this->authorize()) {
+            return;
+        }
     
         // Check if the id parameter is present
         if (!$id) {
