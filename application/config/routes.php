@@ -53,6 +53,7 @@ $route['default_controller'] = 'welcome';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
-$route['api/demo'] = 'ApiDemoController/index';
-
-$route['test'] = 'Test_api/index_get';
+$route['api'] = 'Api/index';
+$route['api/create'] = 'Api/insert';
+$route['api/update/(:num)'] = 'Api/update/$1';
+$route['api/delete/(:num)'] = 'Api/delete/$1';
