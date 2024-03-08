@@ -35,7 +35,7 @@ class Api extends CI_Controller {
         return true;
     }
 
-    public function index(){
+    public function index($id = null){
         if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
             $this->output
                 ->set_content_type('application/json')
@@ -49,7 +49,7 @@ class Api extends CI_Controller {
             return;
         }
 
-        $data = $this->Api_model->get_data();
+        $data = $this->Api_model->get_data($id);
         $this->output
             ->set_content_type('application/json')
             ->set_output(json_encode($data));

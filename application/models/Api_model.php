@@ -7,8 +7,13 @@ class Api_model extends CI_Model {
         $this->load->database();
     }
 
-    public function get_data() {
-        $query = $this->db->get('tbl_sample');
+    public function get_data($id) {
+        if($id !== null){
+            $this->db->where('id', $id);
+            $query = $this->db->get('tbl_sample');
+        }else{
+            $query = $this->db->get('tbl_sample');
+        }
         return $query->result();
     }
 
