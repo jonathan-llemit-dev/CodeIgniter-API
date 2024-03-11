@@ -3,38 +3,48 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class ApiTest extends CI_Controller {
 
-    public function __construct(){
-        parent::__construct();
-        $this->load->model('Api_model');
-
-        $this->load->library('form_validation');
-        $this->form_validation->set_error_delimiters('', '');
-    }
-
     public function index(){
+
+        $username = 'ussc';
+        $password = 'qweqweQ1!';
+
+        $authString = base64_encode("$username:$password");
 
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-        CURLOPT_URL => 'http://localhost:8000/api',
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_ENCODING => '',
-        CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 0,
-        CURLOPT_FOLLOWLOCATION => true,
-        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => 'GET',
-        CURLOPT_HTTPHEADER => array(
-            'Authorization: Basic dXNzYzpxd2Vxd2VRMSE='
-        ),
+            CURLOPT_URL => 'http://localhost:8000/api',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 10, // Set timeout to 10 seconds
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                "Authorization: Basic $authString"
+            ),
         ));
 
         $response = curl_exec($curl);
 
-        curl_close($curl);
+        if ($response === false) {
+            echo 'Curl error: ' . curl_error($curl);
+        } else {
+            $http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+            if ($http_code == 200) {
+                $data['api_response'] = json_decode($response, true);
+                if ($data['api_response'] === null) {
+                    echo 'Invalid JSON response';
+                } else {
+                    $this->load->view('dashboard', $data);
+                }
+            } else {
+                echo 'HTTP error: ' . $http_code;
+            }
+        }
 
-        $data['response'] = $response;
-        $this->load->view('dashboard', $data);
+        curl_close($curl);
 
     }
 

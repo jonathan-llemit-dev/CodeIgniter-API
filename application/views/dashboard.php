@@ -82,7 +82,9 @@
                     <div class="card-body">
                         <h5 class="card-title">API Response</h5>
                         <p class="card-text">
-                            <?php echo $response; ?>
+                            <?php foreach ($api_response as $item): ?>
+                                <li>ID: <?php echo $item['id']; ?>, Name: <?php echo $item['first_name'] . ' ' . $item['last_name']; ?></li>
+                            <?php endforeach; ?>
                         </p>
                     </div>
                 </div>
