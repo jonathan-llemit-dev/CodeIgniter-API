@@ -82,7 +82,15 @@ class Api extends CI_Controller
         $this->form_validation->set_data($input_data);
         $this->form_validation->set_rules('first_name', 'First Name', 'required', array('required' => 'The %s field is required. '));
         $this->form_validation->set_rules('last_name', 'Last Name', 'required', array('required' => 'The %s field is required. '));
-
+        $this->form_validation->set_rules('age', 'Age', 'required|numeric', array(
+            'required' => 'The %s field is required.',
+            'numeric' => 'The %s field must contain only numbers.'
+        ));
+        $this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[tbl_sample.email]', array(
+            'required' => 'The %s field is required.',
+            'valid_email' => 'The %s field must contain a valid email address.',
+            'is_unique' => 'The %s field must contain a unique value.'
+        ));
 
         // Validate the input data
         if ($this->form_validation->run() == false) {
@@ -96,7 +104,9 @@ class Api extends CI_Controller
         // Insert data into the database
         $insert_data = array(
             'first_name' => $input_data['first_name'],
-            'last_name' => $input_data['last_name']
+            'last_name' => $input_data['last_name'],
+            'age' => $input_data['age'],
+            'email' => $input_data['email']
         );
 
         if ($this->Api_model->insert_data($insert_data)) {
@@ -142,7 +152,17 @@ class Api extends CI_Controller
         $this->form_validation->set_data($input_data);
         $this->form_validation->set_rules('first_name', 'First Name', 'required', array('required' => 'The %s field is required. '));
         $this->form_validation->set_rules('last_name', 'Last Name', 'required', array('required' => 'The %s field is required. '));
+        $this->form_validation->set_rules('age', 'Age', 'required|numeric', array(
+            'required' => 'The %s field is required.',
+            'numeric' => 'The %s field must contain only numbers.'
+        ));
 
+        $unique_email_rule = 'required|valid_email|is_unique[tbl_sample.email,id,' . $id . ']';
+        $this->form_validation->set_rules('email', 'Email', $unique_email_rule, array(
+            'required' => 'The %s field is required.',
+            'valid_email' => 'The %s field must contain a valid email address.',
+            'is_unique' => 'The %s field must contain a unique value.'
+        ));
 
         // Validate the input data
         if ($this->form_validation->run() == false) {
@@ -156,7 +176,9 @@ class Api extends CI_Controller
         // Update data in the database
         $update_data = array(
             'first_name' => $input_data['first_name'],
-            'last_name' => $input_data['last_name']
+            'last_name' => $input_data['last_name'],
+            'age' => $input_data['age'],
+            'email' => $input_data['email']
         );
 
         try {
