@@ -45,19 +45,19 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <div class="row justify-content-center">
 
             <nav class="navbar" style="background-color: #FFCC25;">
-                <div class="container-fluid">
-                    <h4 style="color: #483285;">PHILIPPINE PESO EXCHANGE RATES TABLE - REAL TIME TABLE</h4>
+                <div class="container-fluid text-center">
+                    <!-- <h4 style="color: #483285;">PHILIPPINE PESO EXCHANGE RATES TABLE - REAL TIME TABLE</h4> -->
                 </div>
             </nav>
 
             <!-- Your content goes here -->
-            <div class="card bg-light border-dark-subtle mb-4" style="max-width: 80rem;">
+            <div class="card bg-light border-dark-subtle my-4" style="max-width: 80rem;">
                 <h5 class="card-header bg-light text-center">
                     Sample API Data List
                 </h5>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-striped table-hover">
+                        <table class="table table-striped table-hover text-center">
                             <thead>
                                 <tr>
                                     <th scope="col">Id</th>
@@ -66,7 +66,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php if ($api_response === null) : ?>
+                                <?php if ($api_response == null) : ?>
                                     <tr>
                                         <td colspan="5">No Available Data</td>
                                     </tr>
@@ -90,7 +90,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     </div>
 
     <footer class="footer pt-3" style="background-color: #483285;">
-        <p class="text-center text-white">Copyright &copy; 2024 USSC. All rights reserved.</p>
+        <!-- <p class="text-center text-white">Copyright &copy; 2024 USSC. All rights reserved.</p> -->
     </footer>
 
 </body>

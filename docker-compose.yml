@@ -10,7 +10,7 @@ services:
     volumes:
       - ./application:/var/www/html/application
       - ./public_html:/var/www/html/public_html
-      - ./public_html:/var/www/html/assets
+      - ./assets:/var/www/html/assets
     depends_on:
       - db
 
