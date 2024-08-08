@@ -9,6 +9,8 @@ services:
       - "8000:80"
     volumes:
       - ./application:/var/www/html/application
+      - ./public_html:/var/www/html/public_html
+      - ./public_html:/var/www/html/assets
     depends_on:
       - db
 

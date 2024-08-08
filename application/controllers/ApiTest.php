@@ -1,9 +1,11 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class ApiTest extends CI_Controller {
+class ApiTest extends CI_Controller
+{
 
-    public function index(){
+    public function index()
+    {
 
         $username = 'ussc';
         $password = 'qweqweQ1!';
@@ -13,7 +15,8 @@ class ApiTest extends CI_Controller {
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://localhost:8000/api',
+            // refering to the host machine from within a Docker container
+            CURLOPT_URL => 'http://host.docker.internal:8000/api',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -45,9 +48,5 @@ class ApiTest extends CI_Controller {
         }
 
         curl_close($curl);
-
     }
-
 }
-
- 

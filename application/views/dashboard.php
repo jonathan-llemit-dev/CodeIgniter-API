@@ -1,101 +1,98 @@
 <?php
-    defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 <!doctype html>
 <html lang="en">
-  <head>
+
+<head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-
-    <title>Dashboard</title>
+    <link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap.min.css'); ?>">
+    <script defer src="<?php echo base_url('assets/js/bootstrap.min.js'); ?>"></script>
 
     <style>
-        /* Set a fixed height for the sidebar */
-        .sidebar {
-            height: 100vh; /* 100% of the viewport height */
-            overflow-y: auto; /* Enable vertical scrolling if content overflows */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
-        /* Optional: Adjust padding or margins for a better visual appearance */
-        .sidebar-sticky {
-            padding-top: 20px;
+        .container-fluid {
+            flex: 1;
+        }
+
+        .footer {
+            background-color: #483285;
+        }
+
+        .nav-link {
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .nav-link:hover {
+            background-color: #71aaeb;
+            color: #000;
         }
     </style>
 
-  </head>
-  <body>
+    <title>Data List</title>
 
-  <!-- Navigation Bar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Dashboard</a>
-    </nav>
+</head>
+
+<body>
 
     <div class="container-fluid">
-        <div class="row">
+        <div class="row justify-content-center">
 
-            <!-- Sidebar -->
-            <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-                <div class="sidebar-sticky">
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="#">
-                                Dashboard
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                Reports
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                Users
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                settings
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                Logout
-                            </a>
-                        </li>
-                    </ul>
+            <nav class="navbar" style="background-color: #FFCC25;">
+                <div class="container-fluid">
+                    <h4 style="color: #483285;">PHILIPPINE PESO EXCHANGE RATES TABLE - REAL TIME TABLE</h4>
                 </div>
             </nav>
 
-            <!-- Main Content Area -->
-            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="h2">Dashboard</h1>
-                </div>
-
-                <!-- Your content goes here -->
-
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">API Response</h5>
-                        <p class="card-text">
-                            <?php foreach ($api_response as $item): ?>
-                                <li>ID: <?php echo $item['id']; ?>, Name: <?php echo $item['first_name'] . ' ' . $item['last_name']; ?></li>
-                            <?php endforeach; ?>
-                        </p>
+            <!-- Your content goes here -->
+            <div class="card bg-light border-dark-subtle mb-4" style="max-width: 80rem;">
+                <h5 class="card-header bg-light text-center">
+                    Sample API Data List
+                </h5>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Id</th>
+                                    <th scope="col">First Name</th>
+                                    <th scope="col">Last Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php if ($api_response === null) : ?>
+                                    <tr>
+                                        <td colspan="5">No Available Data</td>
+                                    </tr>
+                                <?php else : ?>
+                                    <?php foreach ($api_response as $item) : ?>
+                                        <tr>
+                                            <td><?php echo $item['id']; ?></td>
+                                            <td><?php echo $item['first_name']; ?></td>
+                                            <td><?php echo $item['last_name']; ?></td>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-
-            </main>
+            </div>
         </div>
+
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
+    <footer class="footer pt-3" style="background-color: #483285;">
+        <p class="text-center text-white">Copyright &copy; 2024 USSC. All rights reserved.</p>
+    </footer>
 
 </body>
+
 </html>
