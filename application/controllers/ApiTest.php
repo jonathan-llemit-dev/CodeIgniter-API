@@ -7,10 +7,7 @@ class ApiTest extends CI_Controller
     public function index()
     {
 
-        $username = 'ussc';
-        $password = 'qweqweQ1!';
-
-        $authString = base64_encode("$username:$password");
+        $apiToken = 'qweqweQ1!';
 
         $curl = curl_init();
 
@@ -25,7 +22,7 @@ class ApiTest extends CI_Controller
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'GET',
             CURLOPT_HTTPHEADER => array(
-                "Authorization: Basic $authString"
+                'Authorization: Bearer ' . $apiToken
             ),
         ));
 
