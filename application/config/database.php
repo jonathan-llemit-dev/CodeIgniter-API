@@ -75,9 +75,14 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'   => '',
-	'hostname' => 'localhost',  // or 127.0.0.1
-	'username' => 'your_db_username',
-	'password' => 'your_db_password',
+	// Container
+	'hostname' => 'db',
+	'username' => 'user1',
+	'password' => 'passwd',
+	// Local
+	// 'hostname' => '127.0.0.1:3308',
+	// 'username' => 'root',
+	// 'password' => '',
 	'database' => 'testing',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
