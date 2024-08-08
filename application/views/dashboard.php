@@ -63,6 +63,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                     <th scope="col">Id</th>
                                     <th scope="col">First Name</th>
                                     <th scope="col">Last Name</th>
+                                    <th scope="col">Age</th>
+                                    <th scope="col">Email</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -76,6 +78,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                             <td><?php echo $item['id']; ?></td>
                                             <td><?php echo $item['first_name']; ?></td>
                                             <td><?php echo $item['last_name']; ?></td>
+                                            <td><?php echo $item['age']; ?></td>
+                                            <td><?php echo $item['email']; ?></td>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
