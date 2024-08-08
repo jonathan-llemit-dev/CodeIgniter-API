@@ -157,11 +157,9 @@ class Api extends CI_Controller
             'numeric' => 'The %s field must contain only numbers.'
         ));
 
-        $unique_email_rule = 'required|valid_email|is_unique[tbl_sample.email,id,' . $id . ']';
-        $this->form_validation->set_rules('email', 'Email', $unique_email_rule, array(
+        $this->form_validation->set_rules('email', 'Email', 'required|valid_email|callback_email_unique_check[' . $id . ']', array(
             'required' => 'The %s field is required.',
-            'valid_email' => 'The %s field must contain a valid email address.',
-            'is_unique' => 'The %s field must contain a unique value.'
+            'valid_email' => 'The %s field must contain a valid email address.'
         ));
 
         // Validate the input data
@@ -199,6 +197,22 @@ class Api extends CI_Controller
                 ->set_content_type('application/json')
                 ->set_status_header(500) // 500 Internal Server Error
                 ->set_output(json_encode(array('message' => 'Failed to update data')));
+        }
+    }
+
+    // Custom callback function for email uniqueness check
+    public function email_unique_check($email, $id)
+    {
+        $this->load->model('Api_model');
+
+        // Check if the email exists in the database, excluding the current record by ID
+        $exists = $this->Api_model->email_exists_except_id($email, $id);
+
+        if ($exists) {
+            $this->form_validation->set_message('email_unique_check', 'The {field} field must contain a unique value.');
+            return false;
+        } else {
+            return true;
         }
     }
 
