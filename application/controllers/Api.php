@@ -1,9 +1,11 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Api extends CI_Controller {
+class Api extends CI_Controller
+{
 
-    public function __construct(){
+    public function __construct()
+    {
         parent::__construct();
         $this->load->model('Api_model');
 
@@ -11,9 +13,11 @@ class Api extends CI_Controller {
         $this->form_validation->set_error_delimiters('', '');
     }
 
-    private function authorize() {
-        // Check for basic authorization
-        if (!isset($_SERVER['PHP_AUTH_USER']) || !isset($_SERVER['PHP_AUTH_PW'])) {
+    private function authorize()
+    {
+        // Check for the token in the Authorization header
+        $headers = $this->input->get_request_header('Authorization', TRUE);
+        if (!$headers) {
             $this->output
                 ->set_content_type('application/json')
                 ->set_status_header(401)
@@ -21,10 +25,10 @@ class Api extends CI_Controller {
             return false;
         }
 
-        // Verify basic authorization credentials
-        $username = $_SERVER['PHP_AUTH_USER'];
-        $password = $_SERVER['PHP_AUTH_PW'];
-        if ($username !== 'ussc' || $password !== 'qweqweQ1!') {
+        $expectedToken = 'qweqweQ1!';
+
+        // Check if the token matches the expected token
+        if ($headers !== 'Bearer ' . $expectedToken) {
             $this->output
                 ->set_content_type('application/json')
                 ->set_status_header(401)
@@ -35,7 +39,8 @@ class Api extends CI_Controller {
         return true;
     }
 
-    public function index($id = null){
+    public function index($id = null)
+    {
         if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
             $this->output
                 ->set_content_type('application/json')
@@ -55,7 +60,8 @@ class Api extends CI_Controller {
             ->set_output(json_encode($data));
     }
 
-    public function insert(){
+    public function insert()
+    {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             $this->output
                 ->set_content_type('application/json')
@@ -106,7 +112,8 @@ class Api extends CI_Controller {
         }
     }
 
-    public function update($id = null){
+    public function update($id = null)
+    {
         if ($_SERVER['REQUEST_METHOD'] !== 'PUT') {
             $this->output
                 ->set_content_type('application/json')
@@ -120,7 +127,7 @@ class Api extends CI_Controller {
             return;
         }
 
-        if(!$id){
+        if (!$id) {
             $this->output
                 ->set_content_type('application/json')
                 ->set_status_header(400)
@@ -171,10 +178,10 @@ class Api extends CI_Controller {
                 ->set_status_header(500) // 500 Internal Server Error
                 ->set_output(json_encode(array('message' => 'Failed to update data')));
         }
-
     }
 
-    public function delete($id = null){
+    public function delete($id = null)
+    {
         if ($_SERVER['REQUEST_METHOD'] !== 'DELETE') {
             $this->output
                 ->set_content_type('application/json')
@@ -187,7 +194,7 @@ class Api extends CI_Controller {
         if (!$this->authorize()) {
             return;
         }
-    
+
         // Check if the id parameter is present
         if (!$id) {
             $this->output
@@ -196,7 +203,7 @@ class Api extends CI_Controller {
                 ->set_output(json_encode(array('message' => 'ID parameter is required.')));
             return;
         }
-    
+
         try {
             // Perform the delete operation
             if ($this->Api_model->delete_data($id)) {
@@ -217,7 +224,4 @@ class Api extends CI_Controller {
                 ->set_output(json_encode(array('message' => 'Failed to delete data')));
         }
     }
-
 }
-
- 
