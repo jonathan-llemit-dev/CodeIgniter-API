@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8081:80"  # Changed from 8000:80 to 8081:80
+      - "7780:80"
     volumes:
       - ./application:/var/www/html/application
       - ./public_html:/var/www/html/public_html
@@ -23,7 +23,7 @@ services:
       MYSQL_USER: user1
       MYSQL_PASSWORD: passwd
     ports:
-      - "3307:3306"  # Changed from 3306:3306 to 3307:3306
+      - "3307:3306"
     volumes:
       - db_data:/var/lib/mysql
       - ./dump:/docker-entrypoint-initdb.d/
