@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 // local
 // $config['base_url'] = 'http://localhost:8001';
 // UAT
-$config['base_url'] = 'http://192.168.160.120:8001';
+$config['base_url'] = 'http://192.168.160.120:8081';
 
 /*
 |--------------------------------------------------------------------------
